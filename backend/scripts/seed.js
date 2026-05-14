@@ -17,7 +17,7 @@ const sampleProducts = [
     brand: "AudioTech",
     images: [
       {
-        url: "https://picsum.photos/800/600?random=1",
+        url: "https://i5.walmartimages.com/seo/Bose-QuietComfort-Headphones-Noise-Cancelling-Over-Ear-Wireless-Bluetooth-Earphones-White-Smoke_9a8cadaf-82f7-474e-bb14-0816a1a6fc0b.4729d2dde3f761c6688d17aed1a0f9d6.jpeg",
         alt: "Wireless Bluetooth Headphones",
         isMain: true,
       },
@@ -866,7 +866,7 @@ const sampleProducts = [
     brand: "BeautyPro",
     images: [
       {
-        url: "https://picsum.photos/800/600?random=9",
+        url: "https://m.media-amazon.com/images/I/718JL8aTRwL._AC_.jpg",
         alt: "Professional Makeup Brush Set",
         isMain: true,
       },
@@ -931,81 +931,633 @@ const sampleProducts = [
       },
     ],
   },
+  {
+  name: "Portable Power Bank 20000mAh",
+  slug: "portable-power-bank-20000mah",
+  description: "High capacity power bank with fast charging support.",
+  shortDescription: "20000mAh power bank",
+  sku: "PB-201",
+  brand: "PowerCore",
+  images: [{ url: "https://m.media-amazon.com/images/I/71NHdNB748L._AC_.jpg", alt: "Power Bank", isMain: true }],
+  variants: [{
+    name: "Default",
+    sku: "PB-201-DEFAULT",
+    price: 39.99,
+    comparePrice: 59.99,
+    cost: 18,
+    weight: 0.6,
+    dimensions: { length: 15, width: 7, height: 3 },
+    inventory: { quantity: 180, trackQuantity: true, allowBackorder: false, lowStockThreshold: 20 },
+    attributes: [{ name: "Capacity", value: "20000mAh" }],
+    images: ["https://picsum.photos/800/600?random=302"],
+    isActive: true,
+  }],
+  pricing: { basePrice: 39.99, price: 39.99, comparePrice: 59.99, cost: 18 },
+  inventory: { quantity: 180, trackQuantity: true, allowBackorder: false, lowStockThreshold: 20, reserved: 0 },
+  isActive: true,
+  shipping: { weight: 0.6, dimensions: { length: 15, width: 7, height: 3 }, requiresShipping: true, shippingClass: "standard" },
+  tags: ["powerbank"],
+  status: "active",
+  featured: true,
+  rating: 4.6,
+  numReviews: 210,
+  reviews: [{ rating: 4.5, comment: "Great product!", user: null }],
+},
+
+{
+  name: "Smart LED Bulb WiFi",
+  slug: "smart-led-bulb-wifi",
+  description: "WiFi enabled smart LED bulb with app control.",
+  shortDescription: "Smart LED bulb",
+  sku: "LED-202",
+  brand: "BrightTech",
+  images: [{ url: "https://picsum.photos/800/600?random=303", alt: "Bulb", isMain: true }],
+  variants: [{
+    name: "Default",
+    sku: "LED-202-DEFAULT",
+    price: 14.99,
+    comparePrice: 24.99,
+    cost: 6,
+    weight: 0.2,
+    dimensions: { length: 6, width: 6, height: 10 },
+    inventory: { quantity: 300, trackQuantity: true, allowBackorder: false, lowStockThreshold: 30 },
+    attributes: [{ name: "Watt", value: "9W" }],
+    images: ["https://picsum.photos/800/600?random=304"],
+    isActive: true,
+  }],
+  pricing: { basePrice: 14.99, price: 14.99, comparePrice: 24.99, cost: 6 },
+  inventory: { quantity: 300, trackQuantity: true, allowBackorder: false, lowStockThreshold: 30, reserved: 0 },
+  isActive: true,
+  shipping: { weight: 0.2, dimensions: { length: 6, width: 6, height: 10 }, requiresShipping: true, shippingClass: "standard" },
+  tags: ["light"],
+  status: "active",
+  featured: false,
+  rating: 4.4,
+  numReviews: 150,
+  reviews: [{ rating: 4.5, comment: "Great product!", user: null }],
+},
+
+{
+    name: "USB-C Fast Charger 65W",
+    slug: "usb-c-fast-charger-65w",
+    description: "High-speed 65W USB-C charger for laptops and smartphones.",
+    shortDescription: "65W fast charger",
+    sku: "CH-101",
+    brand: "PowerMax",
+    images: [{ url: "https://m.media-amazon.com/images/I/61BlGwBUGPL._AC_.jpg", alt: "Charger", isMain: true }],
+    variants: [{
+      name: "Default",
+      sku: "CH-101-DEFAULT",
+      price: 29.99,
+      comparePrice: 49.99,
+      cost: 12,
+      weight: 0.3,
+      dimensions: { length: 8, width: 5, height: 3 },
+      inventory: { quantity: 200, trackQuantity: true, allowBackorder: false, lowStockThreshold: 20 },
+      attributes: [{ name: "Color", value: "White" }],
+      images: ["https://m.media-amazon.com/images/I/61BlGwBUGPL._AC_.jpg"],
+      isActive: true,
+    }],
+    pricing: { basePrice: 29.99, price: 29.99, comparePrice: 49.99, cost: 12 },
+    inventory: { quantity: 200, trackQuantity: true, allowBackorder: false, lowStockThreshold: 20, reserved: 0 },
+    isActive: true,
+    shipping: { weight: 0.3, dimensions: { length: 8, width: 5, height: 3 }, requiresShipping: true, shippingClass: "standard" },
+    tags: ["charger", "fast"],
+    status: "active",
+    featured: true,
+    rating: 4.5,
+    numReviews: 120,
+    reviews: [{ rating: 4.5, comment: "Great product!", user: null }],
+  },
+
+  {
+    name: "Noise Cancelling Earbuds",
+    slug: "noise-cancelling-earbuds",
+    description: "Wireless earbuds with ANC and crystal clear audio.",
+    shortDescription: "ANC earbuds",
+    sku: "EB-102",
+    brand: "SoundBeat",
+    images: [{ url: "https://m.media-amazon.com/images/I/61Hc+4qJ3RL._AC_.jpg", alt: "Earbuds", isMain: true }],
+    variants: [{
+      name: "Default",
+      sku: "EB-102-DEFAULT",
+      price: 79.99,
+      comparePrice: 129.99,
+      cost: 40,
+      weight: 0.2,
+      dimensions: { length: 5, width: 5, height: 3 },
+      inventory: { quantity: 180, trackQuantity: true, allowBackorder: false, lowStockThreshold: 15 },
+      attributes: [{ name: "Color", value: "Black" }],
+      images: ["https://picsum.photos/800/600?random=204"],
+      isActive: true,
+    }],
+    pricing: { basePrice: 79.99, price: 79.99, comparePrice: 129.99, cost: 40 },
+    inventory: { quantity: 180, trackQuantity: true, allowBackorder: false, lowStockThreshold: 15, reserved: 0 },
+    isActive: true,
+    shipping: { weight: 0.2, dimensions: { length: 5, width: 5, height: 3 }, requiresShipping: true, shippingClass: "standard" },
+    tags: ["earbuds", "audio"],
+    status: "active",
+    featured: true,
+    rating: 4.6,
+    numReviews: 210,
+    reviews: [{ rating: 4.5, comment: "Great product!", user: null }],
+  },
+
+  {
+    name: "Gaming Laptop Cooling Pad",
+    slug: "gaming-laptop-cooling-pad",
+    description: "Cooling pad with RGB fans for gaming laptops.",
+    shortDescription: "Laptop cooling pad",
+    sku: "LP-103",
+    brand: "CoolTech",
+    images: [{ url: "https://picsum.photos/800/600?random=205", alt: "Cooling Pad", isMain: true }],
+    variants: [{
+      name: "Default",
+      sku: "LP-103-DEFAULT",
+      price: 24.99,
+      comparePrice: 39.99,
+      cost: 10,
+      weight: 0.8,
+      dimensions: { length: 35, width: 25, height: 5 },
+      inventory: { quantity: 150, trackQuantity: true, allowBackorder: false, lowStockThreshold: 20 },
+      attributes: [{ name: "Fan Speed", value: "1200 RPM" }],
+      images: ["https://picsum.photos/800/600?random=206"],
+      isActive: true,
+    }],
+    pricing: { basePrice: 24.99, price: 24.99, comparePrice: 39.99, cost: 10 },
+    inventory: { quantity: 150, trackQuantity: true, allowBackorder: false, lowStockThreshold: 20, reserved: 0 },
+    isActive: true,
+    shipping: { weight: 0.8, dimensions: { length: 35, width: 25, height: 5 }, requiresShipping: true, shippingClass: "standard" },
+    tags: ["laptop", "cooling"],
+    status: "active",
+    featured: false,
+    rating: 4.3,
+    numReviews: 95,
+    reviews: [{ rating: 4.5, comment: "Great product!", user: null }],
+  },
+{
+  name: "Wireless Gaming Controller",
+  slug: "wireless-gaming-controller",
+  description: "Ergonomic wireless controller with vibration feedback and long battery life.",
+  shortDescription: "Wireless game controller",
+  sku: "GC-401",
+  brand: "GamePro",
+  images: [{ url: "https://tse4.mm.bing.net/th/id/OIP.1R5I2mELuAJ-duJna57bygHaHF?rs=1&pid=ImgDetMain&o=7&rm=3", alt: "Controller", isMain: true }],
+  variants: [{
+    name: "Default",
+    sku: "GC-401-DEFAULT",
+    price: 49.99,
+    comparePrice: 69.99,
+    cost: 25,
+    weight: 0.4,
+    dimensions: { length: 15, width: 10, height: 5 },
+    inventory: { quantity: 120, trackQuantity: true, allowBackorder: false, lowStockThreshold: 15 },
+    attributes: [{ name: "Connectivity", value: "Bluetooth" }],
+    images: ["https://picsum.photos/800/600?random=602"],
+    isActive: true,
+  }],
+  pricing: { basePrice: 49.99, price: 49.99, comparePrice: 69.99, cost: 25 },
+  inventory: { quantity: 120, trackQuantity: true, allowBackorder: false, lowStockThreshold: 15, reserved: 0 },
+  isActive: true,
+  shipping: { weight: 0.4, dimensions: { length: 15, width: 10, height: 5 }, requiresShipping: true, shippingClass: "standard" },
+  tags: ["gaming", "controller"],
+  status: "active",
+  featured: true,
+  rating: 4.5,
+  numReviews: 140,
+  reviews: [{ rating: 4.5, comment: "Great product!", user: null }],
+},
+
+{
+  name: "Adjustable Laptop Stand",
+  slug: "adjustable-laptop-stand",
+  description: "Foldable aluminum laptop stand with adjustable height.",
+  shortDescription: "Laptop stand",
+  sku: "LS-402",
+  brand: "WorkEase",
+  images: [{ url: "https://picsum.photos/800/600?random=603", alt: "Laptop Stand", isMain: true }],
+  variants: [{
+    name: "Default",
+    sku: "LS-402-DEFAULT",
+    price: 29.99,
+    comparePrice: 49.99,
+    cost: 14,
+    weight: 0.7,
+    dimensions: { length: 25, width: 20, height: 5 },
+    inventory: { quantity: 150, trackQuantity: true, allowBackorder: false, lowStockThreshold: 20 },
+    attributes: [{ name: "Material", value: "Aluminum" }],
+    images: ["https://picsum.photos/800/600?random=604"],
+    isActive: true,
+  }],
+  pricing: { basePrice: 29.99, price: 29.99, comparePrice: 49.99, cost: 14 },
+  inventory: { quantity: 150, trackQuantity: true, allowBackorder: false, lowStockThreshold: 20, reserved: 0 },
+  isActive: true,
+  shipping: { weight: 0.7, dimensions: { length: 25, width: 20, height: 5 }, requiresShipping: true, shippingClass: "standard" },
+  tags: ["laptop", "stand"],
+  status: "active",
+  featured: false,
+  rating: 4.4,
+  numReviews: 95,
+  reviews: [{ rating: 4.5, comment: "Great product!", user: null }],
+},
+
+{
+  name: "Bluetooth Car Adapter",
+  slug: "bluetooth-car-adapter",
+  description: "Car Bluetooth adapter with hands-free calling and music streaming.",
+  shortDescription: "Car Bluetooth adapter",
+  sku: "CAR-403",
+  brand: "AutoTech",
+  images: [{ url: "https://picsum.photos/800/600?random=605", alt: "Car Adapter", isMain: true }],
+  variants: [{
+    name: "Default",
+    sku: "CAR-403-DEFAULT",
+    price: 19.99,
+    comparePrice: 34.99,
+    cost: 9,
+    weight: 0.2,
+    dimensions: { length: 6, width: 4, height: 3 },
+    inventory: { quantity: 200, trackQuantity: true, allowBackorder: false, lowStockThreshold: 25 },
+    attributes: [{ name: "Version", value: "Bluetooth 5.0" }],
+    images: ["https://picsum.photos/800/600?random=606"],
+    isActive: true,
+  }],
+  pricing: { basePrice: 19.99, price: 19.99, comparePrice: 34.99, cost: 9 },
+  inventory: { quantity: 200, trackQuantity: true, allowBackorder: false, lowStockThreshold: 25, reserved: 0 },
+  isActive: true,
+  shipping: { weight: 0.2, dimensions: { length: 6, width: 4, height: 3 }, requiresShipping: true, shippingClass: "standard" },
+  tags: ["car", "bluetooth"],
+  status: "active",
+  featured: false,
+  rating: 4.3,
+  numReviews: 88,
+  reviews: [{ rating: 4.5, comment: "Great product!", user: null }],
+},
+
+{
+  name: "Electric Kettle 1.5L",
+  slug: "electric-kettle-15l",
+  description: "Fast boiling electric kettle with auto shut-off feature.",
+  shortDescription: "Electric kettle",
+  sku: "KT-404",
+  brand: "HomePro",
+  images: [{ url: "https://m.media-amazon.com/images/I/613-9+1NmoL._AC_.jpg", alt: "Kettle", isMain: true }],
+  variants: [{
+    name: "Default",
+    sku: "KT-404-DEFAULT",
+    price: 34.99,
+    comparePrice: 49.99,
+    cost: 18,
+    weight: 1.2,
+    dimensions: { length: 20, width: 15, height: 25 },
+    inventory: { quantity: 90, trackQuantity: true, allowBackorder: false, lowStockThreshold: 10 },
+    attributes: [{ name: "Capacity", value: "1.5L" }],
+    images: ["https://picsum.photos/800/600?random=608"],
+    isActive: true,
+  }],
+  pricing: { basePrice: 34.99, price: 34.99, comparePrice: 49.99, cost: 18 },
+  inventory: { quantity: 90, trackQuantity: true, allowBackorder: false, lowStockThreshold: 10, reserved: 0 },
+  isActive: true,
+  shipping: { weight: 1.2, dimensions: { length: 20, width: 15, height: 25 }, requiresShipping: true, shippingClass: "standard" },
+  tags: ["kitchen"],
+  status: "active",
+  featured: true,
+  rating: 4.5,
+  numReviews: 110,
+  reviews: [{ rating: 4.5, comment: "Great product!", user: null }],
+},
+
+{
+  name: "Men Cotton T-Shirt",
+  slug: "men-cotton-tshirt",
+  description: "Soft and breathable cotton t-shirt for everyday wear.",
+  shortDescription: "Cotton t-shirt",
+  sku: "TS-405",
+  brand: "StyleWear",
+  images: [{ url: "https://picsum.photos/800/600?random=609", alt: "Tshirt", isMain: true }],
+  variants: [{
+    name: "Default",
+    sku: "TS-405-DEFAULT",
+    price: 19.99,
+    comparePrice: 29.99,
+    cost: 8,
+    weight: 0.3,
+    dimensions: { length: 25, width: 20, height: 2 },
+    inventory: { quantity: 250, trackQuantity: true, allowBackorder: false, lowStockThreshold: 30 },
+    attributes: [{ name: "Size", value: "L" }],
+    images: ["https://picsum.photos/800/600?random=610"],
+    isActive: true,
+  }],
+  pricing: { basePrice: 19.99, price: 19.99, comparePrice: 29.99, cost: 8 },
+  inventory: { quantity: 250, trackQuantity: true, allowBackorder: false, lowStockThreshold: 30, reserved: 0 },
+  isActive: true,
+  shipping: { weight: 0.3, dimensions: { length: 25, width: 20, height: 2 }, requiresShipping: true, shippingClass: "standard" },
+  tags: ["fashion", "men"],
+  status: "active",
+  featured: false,
+  rating: 4.2,
+  numReviews: 130,
+  reviews: [{ rating: 4.5, comment: "Great product!", user: null }],
+},
+
+{
+  name: "Digital Alarm Clock LED",
+  slug: "digital-alarm-clock-led",
+  description: "LED display alarm clock with snooze and temperature display.",
+  shortDescription: "Digital alarm clock",
+  sku: "CLK-406",
+  brand: "TimeTech",
+  images: [{ url: "https://picsum.photos/800/600?random=611", alt: "Clock", isMain: true }],
+  variants: [{
+    name: "Default",
+    sku: "CLK-406-DEFAULT",
+    price: 15.99,
+    comparePrice: 25.99,
+    cost: 7,
+    weight: 0.4,
+    dimensions: { length: 12, width: 6, height: 6 },
+    inventory: { quantity: 180, trackQuantity: true, allowBackorder: false, lowStockThreshold: 20 },
+    attributes: [{ name: "Display", value: "LED" }],
+    images: ["https://picsum.photos/800/600?random=612"],
+    isActive: true,
+  }],
+  pricing: { basePrice: 15.99, price: 15.99, comparePrice: 25.99, cost: 7 },
+  inventory: { quantity: 180, trackQuantity: true, allowBackorder: false, lowStockThreshold: 20, reserved: 0 },
+  isActive: true,
+  shipping: { weight: 0.4, dimensions: { length: 12, width: 6, height: 6 }, requiresShipping: true, shippingClass: "standard" },
+  tags: ["clock"],
+  status: "active",
+  featured: false,
+  rating: 4.3,
+  numReviews: 75,
+  reviews: [{ rating: 4.5, comment: "Great product!", user: null }],
+},
+
+{
+  name: "Hair Dryer Professional",
+  slug: "hair-dryer-professional",
+  description: "High performance hair dryer with multiple heat settings.",
+  shortDescription: "Hair dryer",
+  sku: "HD-407",
+  brand: "BeautyCare",
+  images: [{ url: "https://m.media-amazon.com/images/I/71b56p2pn6L._AC_.jpg", alt: "Hair Dryer", isMain: true }],
+  variants: [{
+    name: "Default",
+    sku: "HD-407-DEFAULT",
+    price: 39.99,
+    comparePrice: 59.99,
+    cost: 20,
+    weight: 0.9,
+    dimensions: { length: 25, width: 10, height: 10 },
+    inventory: { quantity: 110, trackQuantity: true, allowBackorder: false, lowStockThreshold: 15 },
+    attributes: [{ name: "Power", value: "2000W" }],
+    images: ["https://picsum.photos/800/600?random=614"],
+    isActive: true,
+  }],
+  pricing: { basePrice: 39.99, price: 39.99, comparePrice: 59.99, cost: 20 },
+  inventory: { quantity: 110, trackQuantity: true, allowBackorder: false, lowStockThreshold: 15, reserved: 0 },
+  isActive: true,
+  shipping: { weight: 0.9, dimensions: { length: 25, width: 10, height: 10 }, requiresShipping: true, shippingClass: "standard" },
+  tags: ["beauty"],
+  status: "active",
+  featured: true,
+  rating: 4.4,
+  numReviews: 160,
+  reviews: [{ rating: 4.5, comment: "Great product!", user: null }],
+},
+
+{
+  name: "Office Chair Ergonomic",
+  slug: "office-chair-ergonomic",
+  description: "Ergonomic office chair with lumbar support and adjustable height.",
+  shortDescription: "Office chair",
+  sku: "CHR-408",
+  brand: "ComfortSeat",
+  images: [{ url: "https://th.bing.com/th/id/OIP.WmjbLqoVOF-vysiACDXXwAHaHa?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3", alt: "Chair", isMain: true }],
+  variants: [{
+    name: "Default",
+    sku: "CHR-408-DEFAULT",
+    price: 149.99,
+    comparePrice: 199.99,
+    cost: 80,
+    weight: 10,
+    dimensions: { length: 70, width: 60, height: 120 },
+    inventory: { quantity: 60, trackQuantity: true, allowBackorder: false, lowStockThreshold: 10 },
+    attributes: [{ name: "Material", value: "Mesh" }],
+    images: ["https://picsum.photos/800/600?random=616"],
+    isActive: true,
+  }],
+  pricing: { basePrice: 149.99, price: 149.99, comparePrice: 199.99, cost: 80 },
+  inventory: { quantity: 60, trackQuantity: true, allowBackorder: false, lowStockThreshold: 10, reserved: 0 },
+  isActive: true,
+  shipping: { weight: 10, dimensions: { length: 70, width: 60, height: 120 }, requiresShipping: true, shippingClass: "standard" },
+  tags: ["office"],
+  status: "active",
+  featured: true,
+  rating: 4.6,
+  numReviews: 85,
+  reviews: [{ rating: 4.5, comment: "Great product!", user: null }],
+}
+
 ];
 
 // Sample categories
-const sampleCategories = [
+const sampleCategories =  [
   {
+
     name: "Electronics",
     slug: "electronics",
-    path: "electronics",
-    description: "Latest gadgets and electronic devices",
-    image: {
-      url: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800",
-      alt: "Electronics category",
-    },
-    icon: "📱",
-    parent: null,
-    isActive: true,
-    sortOrder: 1,
+    productCount: 234,
+    subcategories: ["Mobiles", "Laptops", "Accessories"],
+    sortorder: 1,
+   subcategories1: [
+    "iPhone",
+    "Samsung Galaxy",
+    "OnePlus",
+    "Gaming Laptops",
+    "MacBook",
+    "Ultrabooks",
+    "Chargers",
+    "Power Banks",
+    "Headphones",
+    "Smart Watches"
+  ],
+   subcategories2: [
+    "Cameras",
+    "Smartphones",
+    "Tablets",
+    "Laptops",
+    "Desktops",
+    "Accessories",
+    "Gaming Laptops",
+    "MacBook",  
+    "Ultrabooks",
+    "Chargers",
+    "Power Banks",
+    "Headphones",
+    "Smart Watches"
+  ],
+   subcategories3: [
+    "TVs",  
+    "Smart TVs",
+    "LED TVs",
+    "OLED TVs",
+    "QLED TVs",
+    "Curved TVs",
+    "4K TVs",
+    "8K TVs",
+    "UHD TVs",
+    "HDR TVs",
+    "Android TVs",
+    "iOS TVs",
+    "Windows TVs",
+    "Mac TVs",
+    "Chromebook TVs",
+    "Gaming TVs",
+    "4K Gaming TVs",
+    "8K Gaming TVs",
+    "UHD Gaming TVs",
+    "HDR Gaming TVs",
+    "Android Gaming TVs",
+    "iOS Gaming TVs",
+    "Windows Gaming TVs",
+   ],
   },
   {
+     
+    name: "Home & Kitchen",
+    slug: "home-kitchen",
+    sortorder: 2,
+    productCount: 156,
+    subcategories: ["Furniture", "Appliances", "Decor"],
+    subcategories1: [
+    "Sofas",
+    "Beds",
+    "Dining Tables",
+    "Cabinets",
+    "Kitchen Cabinets",
+    "Bar Stools",
+    "Chairs",
+    "Cushions",
+    "Pillows",
+    "Curtains",
+    "Curtains",
+    ]
+  },
+  {
+    
     name: "Fashion",
     slug: "fashion",
-    path: "fashion",
-    description: "Trendy clothing and accessories",
-    image: {
-      url: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800",
-      alt: "Fashion category",
-    },
-    icon: "👔",
-    parent: null,
-    isActive: true,
-    sortOrder: 2,
+    productCount: 189,
+    sortorder: 3,
+    subcategories: ["Men", "Women", "Kids"],
+      subcategories1: [
+        "Men's Clothing",
+        "Women's Clothing",
+        "Kid's Clothing",
+        "Men's Shoes",
+        "Women's Shoes",
+        "Kid's Shoes",
+        " Men's Accessories",
+        "Women's Accessories",
+        "Kid's Accessories",
+        "Men's Watches",
+        "Women's Watches",
+        "Kid's Watches",
+      ]
   },
   {
-    name: "Home & Living",
-    slug: "home-living",
-    path: "home-living",
-    description: "Home decor and kitchen essentials",
-    image: {
-      url: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
-      alt: "Home & Living category",
-    },
-    icon: "🏠",
-    parent: null,
-    isActive: true,
-    sortOrder: 3,
+      
+    name: "Fitness",
+    slug: "fitness",
+    productCount: 98,
+    sortorder: 4,
+    subcategories: ["Workout Gear", "Supplements"],
+      subcategories1: ["raw data","raw data","raw data","raw data",]
   },
   {
-    name: "Sports & Fitness",
-    slug: "sports",
-    path: "sports",
-    description: "Fitness equipment and sports gear",
-    image: {
-      url: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
-      alt: "Sports & Fitness category",
-    },
-    icon: "💪",
-    parent: null,
-    isActive: true,
-    sortOrder: 4,
-  },
-  {
-    name: "Beauty & Personal Care",
+     
+    name: "Beauty",
     slug: "beauty",
-    path: "beauty",
-    description: "Cosmetics and personal care products",
-    image: {
-      url: "https://images.unsplash.com/photo-1596462502278-274cbbb4063e?w=800",
-      alt: "Beauty & Personal Care category",
-    },
-    icon: "💄",
-    parent: null,
-    isActive: true,
-    sortOrder: 5,
+    productCount: 76,
+      sortorder: 5,
+    subcategories: ["Skincare", "Makeup", "Hair Care"],
+      subcategories1: ["raw data","raw data","raw data","raw data",]
+  },
+  {
+    
+    name: "Accessories",
+    slug: "accessories",
+      sortorder: 6,
+    productCount: 45,
+    subcategories: ["Watches", "Bags", "Jewelry"],
+      subcategories1: ["raw data","raw data","raw data","raw data",]
+  },
+  {
+     
+    name: "Toys & Games",
+    slug: "toys",
+    productCount: 55,
+    sortorder: 7,
+    subcategories: ["Action Figures", "Board Games", "Puzzles"],
+      subcategories1: ["raw data","raw data","raw data","raw data",]
+  },
+  {
+     
+    name: "Books",
+    slug: "books",
+    productCount: 90,
+    sortorder: 8,
+    subcategories: ["Fiction", "Non-fiction", "Educational"],
+      subcategories1: ["raw data","raw data","raw data","raw data",]
+  },
+  {
+    
+    name: "Baby Products",
+    slug: "baby",
+    productCount: 40,
+    sortorder: 9,
+    subcategories: ["Diapers", "Toys", "Clothing"],
+      subcategories1: ["raw data","raw data","raw data","raw data",]
+  },
+  {
+     
+    name: "Pet Supplies",
+    slug: "pets",
+    productCount: 35,
+    sortorder: 10,
+    subcategories: ["Dog Food", "Cat Food", "Accessories"],
+      subcategories1: ["raw data","raw data","raw data","raw data",]
+  },
+  {
+    
+    name: "Computers",
+    slug: "computers",
+    productCount: 75,
+    sortorder: 11,
+    subcategories: ["Desktops", "Monitors", "Keyboards"],
+      subcategories1: ["raw data","raw data","raw data","raw data",]
+  },
+  {
+     
+    name: "Gaming",
+    slug: "gaming",
+    productCount: 65,
+    sortorder: 12,
+    subcategories: ["Consoles", "Games", "Accessories"],
+      subcategories1: ["raw data","raw data","raw data","raw data",]
+  },
+  {
+      
+    name: "Furniture",
+    slug: "furniture",
+    productCount: 85,
+    sortorder: 13,
+    subcategories: ["Sofas", "Beds", "Tables"],
+      subcategories1: ["raw data","raw data","raw data","raw data",]
   },
 ];
+
 
 // Sample supplier
 const sampleSupplier = {
@@ -1063,22 +1615,48 @@ async function seedDatabase() {
   try {
     // Connect to database
     await mongoose.connect(
-      process.env.MONGODB_URI || "mongodb://localhost:27017/ecommerce_businness",
+      process.env.MONGODB_URI ||
+        "mongodb+srv://Anand:Anand967141@cluster0.whni8gd.mongodb.net/ecommerce_businness?retryWrites=true&w=majority&appName=Cluster0",
     );
     console.log("Connected to MongoDB");
 
     // Clear existing data
-    await Product.deleteMany({});
-    await Category.deleteMany({});
-    await Supplier.deleteMany({});
+    if (process.env.SEED_CLEAR === "true") {
+      await Product.deleteMany({});
+      await Category.deleteMany({});
+      await Supplier.deleteMany({});
+    }
     console.log("Cleared existing data");
 
     // Insert supplier first
-    const supplier = await Supplier.create(sampleSupplier);
+    const supplier = await Supplier.findOneAndUpdate(
+  { slug: sampleSupplier.slug },
+  sampleSupplier,
+  { upsert: true, new: true }
+);
     console.log("Created supplier:", supplier.name);
 
     // Insert categories
-    const categories = await Category.insertMany(sampleCategories);
+    const seen = new Set();
+const uniqueCategories = [];
+
+for (const cat of sampleCategories) {
+  if (!seen.has(cat.slug)) {
+    seen.add(cat.slug);
+    uniqueCategories.push(cat);
+  }
+}
+
+const categories = [];
+
+for (const cat of uniqueCategories) {   // ✅ FIX HERE
+  const updated = await Category.findOneAndUpdate(
+    { slug: cat.slug },
+    cat,
+    { upsert: true, new: true }
+  );
+  categories.push(updated);
+}
     console.log(`Created ${categories.length} categories`);
 
     // Create category lookup map
@@ -1088,52 +1666,76 @@ async function seedDatabase() {
     });
 
     // Update products with category references and supplier
-    const productsWithRefs = sampleProducts.map((product, index) => {
-      let categorySlug = "electronics"; // default
+   const productsWithRefs = sampleProducts.map((product, index) => {
+  let categorySlug = "electronics"; // default
 
-      // 🔥 Fix variants
-      if (!product.variants || product.variants.length === 0) {
-        product.variants = [
-          {
-            name: "Default",
-            sku: `${product.sku || "SKU"}-DEFAULT-${index}`, // UNIQUE
-            price: product.pricing?.price || product.price || 100,
-            comparePrice: product.pricing?.comparePrice || 150,
-            cost: product.pricing?.cost || 50,
-            weight: 0.5,
-            dimensions: { length: 10, width: 10, height: 5 },
-            inventory: {
-              quantity: 50,
-              trackQuantity: true,
-              allowBackorder: false,
-              lowStockThreshold: 10,
-            },
-            attributes: [{ name: "Color", value: "Default" }],
-            images: product.images?.map((img) => img.url || img) || [],
-            isActive: true,
-          },
-        ];
-      }
-      // Assign categories based on product type
-      if (index === 0 || index === 1) {
-        categorySlug = "electronics"; // Headphones, Smart Watch
-      } else if (index === 2) {
-        categorySlug = "sports"; // Yoga Mat
-      } else if (index === 3) {
-        categorySlug = "home-living"; // Coffee Maker
-      } else if (index === 4) {
-        categorySlug = "beauty"; // Makeup Brushes
-      }
+  // 🔥 Smart category assignment
+  if (index === 0 || index === 1) {
+    categorySlug = "electronics";
+  } else if (index === 2) {
+    categorySlug = "sports";
+  } else if (index === 3) {
+    categorySlug = "home-living";
+  } else if (index === 4) {
+    categorySlug = "beauty";
+  }
 
-      return {
-        ...product,
-        category: categoryMap[categorySlug],
-        supplier: supplier._id,
-      };
-    });
+  // 🔥 Safe category fetch
+  let catId = categoryMap[categorySlug];
+
+  // 🚨 Fallback if category missing
+  if (!catId) {
+    console.log("❌ Missing category:", categorySlug);
+
+    // fallback to first available category
+    const fallbackCategory = Object.values(categoryMap)[0];
+
+    if (!fallbackCategory) {
+      throw new Error("🚨 No categories found in DB");
+    }
+
+    catId = fallbackCategory;
+  }
+
+  // 🔥 Fix variants (important)
+  let variants = product.variants;
+
+  if (!variants || variants.length === 0) {
+    variants = [
+      {
+        name: "Default",
+        sku: `${product.sku || "SKU"}-DEFAULT-${index}`,
+        slug: product.slug + "-" + index,
+        price: product.pricing?.price || product.price || 100,
+        comparePrice: product.pricing?.comparePrice || 150,
+        cost: product.pricing?.cost || 50,
+        weight: 0.5,
+        dimensions: { length: 10, width: 10, height: 5 },
+        inventory: {
+          quantity: 50,
+          trackQuantity: true,
+          allowBackorder: false,
+          lowStockThreshold: 10,
+        },
+        attributes: [{ name: "Color", value: "Default" }],
+        images: product.images?.map((img) => img.url || img) || [],
+        isActive: true,
+      },
+    ];
+  }
+
+  return {
+    ...product,
+    variants,
+    category: catId,
+    supplier: supplier._id,
+  };
+});
 
     // Insert products
-    const products = await Product.insertMany(productsWithRefs);
+    const products = await Product.insertMany(productsWithRefs, {
+      ordered: false,
+    });
     console.log(`Created ${products.length} products`);
 
     console.log("Database seeded successfully!");

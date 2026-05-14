@@ -25,6 +25,9 @@ const paymentRoutes = require('./src/routes/payments');
 const checkoutRoutes = require('./src/routes/checkout');
 const analyticsRoutes = require('./src/routes/analytics');
 const categoryRoutes = require('./src/routes/categories');
+const uploadRoutes = require("./src/routes/uploadRoutes");
+
+
 
 // Import middleware
 const errorHandler = require('./src/middleware/errorHandler');
@@ -43,7 +46,7 @@ app.use(helmet({
 
 // CORS configuration
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5000'],
+  origin: ['https://luxe-cart-delta.vercel.app', 'http://localhost:3000'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
@@ -116,7 +119,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/categories', categoryRoutes);
-
+app.use("/uploads", express.static("uploads"));
+app.use("/api/upload", uploadRoutes);
 
 // 404 handler
 app.use(notFound);
@@ -131,6 +135,8 @@ const connectDB = async () => {
       maxPoolSize: 10,
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
+      tls: true,
+  tlsAllowInvalidCertificates: true,
     });
 
     console.log(`MongoDB Connected: ${conn.connection.host}`);

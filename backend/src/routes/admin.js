@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { protect, admin } = require('../middleware/auth');
 const adminController = require('../controllers/adminController');
-// const analyticsController = require('../controllers/analyticsController');
+const analyticsController = require('../controllers/analyticsController');
 const supplierController = require('../controllers/supplierController');
 
 // Apply auth and admin middleware to all admin routes
@@ -13,7 +13,7 @@ router.use(admin);
 router.get('/dashboard', adminController.getDashboard);
 
 // Analytics routes (temporarily commented)
-// router.get('/analytics/overview', analyticsController.getDashboardOverview);
+router.get('/analytics/overview', analyticsController.getDashboardOverview);
 // router.get('/analytics/realtime', analyticsController.getRealTimeMetrics);
 // router.get('/analytics/sales', analyticsController.getSalesAnalytics);
 // router.get('/analytics/customers', analyticsController.getCustomerAnalytics);

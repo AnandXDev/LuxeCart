@@ -228,7 +228,7 @@ exports.sendOTP = async (req, res) => {
       await sendEmail({
         email: email,
         subject: "Your OTP Code",
-        text: `Your OTP is ${otp}`
+        message: `<p>Your OTP is <strong>${otp}</strong>. It expires in 5 minutes.</p>`
       });
 
       console.log("OTP:", otp); // 🔥 debug

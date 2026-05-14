@@ -97,32 +97,32 @@ exports.getProfile = asyncHandler(async (req, res, next) => {
 
 // @desc    Update user profile
 // @route   PUT /api/users/profile
-exports.updateProfile = asyncHandler(async (req, res, next) => {
-  const {
-    firstName,
-    lastName,
-    phone,
-    bio
-  } = req.body;
+// exports.updateProfile = asyncHandler(async (req, res, next) => {
+//   const {
+//     firstName,
+//     lastName,
+//     phone,
+//     bio
+//   } = req.body;
 
-  const updateFields = {};
-  if (firstName) updateFields.firstName = firstName;
-  if (lastName) updateFields.lastName = lastName;
-  if (phone) updateFields.phone = phone;
-  if (bio) updateFields.bio = bio;
+//   const updateFields = {};
+//   if (firstName) updateFields.firstName = firstName;
+//   if (lastName) updateFields.lastName = lastName;
+//   if (phone) updateFields.phone = phone;
+//   if (bio) updateFields.bio = bio;
 
-  const user = await User.findByIdAndUpdate(
-    req.user.id,
-    updateFields,
-    { new: true, runValidators: true }
-  );
+//   const user = await User.findByIdAndUpdate(
+//     req.user.id,
+//     updateFields,
+//     { new: true, runValidators: true }
+//   );
 
-  res.status(200).json({
-    success: true,
-    message: 'Profile updated successfully',
-    data: user
-  });
-});
+//   res.status(200).json({
+//     success: true,
+//     message: 'Profile updated successfully',
+//     data: user
+//   });
+// });
 
 // @desc    Change password
 // @route   PUT /api/users/password
@@ -300,7 +300,7 @@ exports.updateProfile = asyncHandler(async (req, res, next) => {
     firstName,
     lastName,
     phone,
-    avatar,
+    image,
     preferences
   } = req.body;
 
@@ -309,7 +309,9 @@ exports.updateProfile = asyncHandler(async (req, res, next) => {
   if (firstName) user.firstName = firstName;
   if (lastName) user.lastName = lastName;
   if (phone) user.phone = phone;
-  if (avatar) user.avatar = avatar;
+
+  if (image) user.image = image;   // 🔥 MAIN FIX
+
   if (preferences) {
     user.preferences = { ...user.preferences, ...preferences };
   }

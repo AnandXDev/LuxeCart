@@ -28,11 +28,11 @@ const createProductValidator = [
     .isMongoId()
     .withMessage('Invalid supplier ID'),
   
-  body('pricing.price')
+  body('pricing.basePrice')
     .isNumeric()
-    .withMessage('Price must be a number')
+    .withMessage('Base price must be a number')
     .isFloat({ min: 0 })
-    .withMessage('Price must be greater than or equal to 0'),
+    .withMessage('Base price must be greater than or equal to 0'),
   
   body('pricing.comparePrice')
     .optional()
@@ -51,7 +51,7 @@ const createProductValidator = [
     .isInt({ min: 0 })
     .withMessage('Quantity must be a non-negative integer'),
   
-  body('inventory.sku')
+  body('sku')
     .trim()
     .notEmpty()
     .withMessage('SKU is required')
@@ -65,24 +65,48 @@ const createProductValidator = [
   body('images.*.url')
     .isURL()
     .withMessage('Image URL must be a valid URL'),
+
+  body('images.*.alt')
+  .notEmpty()
+  .withMessage('Image alt text is required'),
   
-  body('variants')
-    .isArray()
-    .withMessage('Variants must be an array'),
+ body('variants.*.name')
+  .notEmpty()
+  .withMessage('Variant name is required'),
+
+body('variants.*.sku')
+  .notEmpty()
+  .withMessage('Variant SKU is required'),
+
+body('variants.*.price')
+  .isFloat({ min: 0 })
+  .withMessage('Variant price must be >= 0'),
+
+body('variants.*.cost')
+  .isFloat({ min: 0 })
+  .withMessage('Variant cost must be >= 0'),
+
+body('variants.*.inventory.quantity')
+  .isInt({ min: 0 })
+  .withMessage('Variant quantity must be >= 0'),
   
   body('shipping.weight')
+    .optional()
     .isFloat({ min: 0 })
     .withMessage('Weight must be a non-negative number'),
   
   body('shipping.dimensions.length')
+    .optional()
     .isFloat({ min: 0 })
     .withMessage('Length must be a non-negative number'),
   
   body('shipping.dimensions.width')
+    .optional()
     .isFloat({ min: 0 })
     .withMessage('Width must be a non-negative number'),
   
   body('shipping.dimensions.height')
+    .optional()
     .isFloat({ min: 0 })
     .withMessage('Height must be a non-negative number'),
   
@@ -127,12 +151,12 @@ const updateProductValidator = [
     .isMongoId()
     .withMessage('Invalid supplier ID'),
   
-  body('pricing.price')
+  body('pricing.basePrice')
     .optional()
     .isNumeric()
-    .withMessage('Price must be a number')
+    .withMessage('Base price must be a number')
     .isFloat({ min: 0 })
-    .withMessage('Price must be greater than or equal to 0'),
+    .withMessage('Base price must be greater than or equal to 0'),
   
   body('pricing.comparePrice')
     .optional()
@@ -153,7 +177,7 @@ const updateProductValidator = [
     .isInt({ min: 0 })
     .withMessage('Quantity must be a non-negative integer'),
   
-  body('inventory.sku')
+  body('sku')
     .optional()
     .trim()
     .notEmpty()

@@ -11,60 +11,43 @@ exports.generateInvoice = asyncHandler(async (req, res, next) => {
   const orderId = req.params.id;
   const userId = req.user.id;
 
-  try {
-    // Get order with all details
-    const order = await Order.findOne({ _id: orderId, user: userId })
-      .populate('items.product', 'name images')
-      .populate('shippingAddress')
-      .populate('user', 'name email phone');
+  const order = await Order.findOne({ _id: orderId, user: userId })
+    .populate('items.product', 'name images')
+    .populate('user', 'name email phone');
 
-    if (!order) {
-      return res.status(404).json({
-        success: false,
-        message: 'Order not found'
-      });
-    }
-
-    // Generate HTML for invoice
-    const html = generateInvoiceHTML(order);
-
-    // Launch Puppeteer to generate PDF
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+  if (!order) {
+    return res.status(404).json({
+      success: false,
+      message: 'Order not found'
     });
-
-    const page = await browser.newPage();
-    await page.setContent(html, { waitUntil: 'networkidle0' });
-
-    const pdfBuffer = await page.pdf({
-      format: 'A4',
-      printBackground: true,
-      margin: {
-        top: '20mm',
-        right: '20mm',
-        bottom: '20mm',
-        left: '20mm'
-      }
-    });
-
-    await browser.close();
-
-    // Set headers for PDF download
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename=invoice-${order.orderNumber}.pdf`);
-    res.setHeader('Content-Length', pdfBuffer.length);
-
-    res.send(pdfBuffer);
-  } catch (error) {
-    console.error('Invoice generation error:', error);
-    next(error);
   }
+
+  const html = generateInvoiceHTML(order);
+
+  const browser = await puppeteer.launch({
+    headless: "new",
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
+
+  const page = await browser.newPage();
+  await page.setContent(html);
+
+  const pdfBuffer = await page.pdf({
+    format: 'A4',
+    printBackground: true,
+  });
+
+  await browser.close();
+
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', `attachment; filename=invoice-${order.orderNumber}.pdf`);
+
+  res.send(pdfBuffer);
 });
 
 // Helper function to generate invoice HTML
 function generateInvoiceHTML(order) {
-  const formatPrice = (price) => `$${price.toFixed(2)}`;
+  const formatPrice = (price) => `$${(price || 0).toFixed(2)}`;
   const formatDate = (date) => new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -214,16 +197,16 @@ function generateInvoiceHTML(order) {
         <div class="addresses">
           <div class="address">
             <h3>Bill To:</h3>
-            <p><strong>${order.user.name}</strong></p>
-            <p>${order.user.email}</p>
-            <p>${order.user.phone || 'N/A'}</p>
+            <p><strong>${order.user?.name || `${order.user?.firstName || ""} ${order.user?.lastName || ""}` || "Customer"}</strong></p>
+            <p>${order.user?.email}</p>
+            <p>${order.user?.phone || 'N/A'}</p>
           </div>
           <div class="address">
             <h3>Ship To:</h3>
-            <p><strong>${order.shippingAddress.fullName}</strong></p>
-            <p>${order.shippingAddress.address}</p>
-            <p>${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.zipCode}</p>
-            <p>${order.shippingAddress.country}</p>
+            <p><strong>${order.shipping?.address?.firstName || ""} ${order.shipping?.address?.lastName || ""}</strong></p>
+            <p>${order.shipping?.address?.street || "N/A"}</p>
+            <p>${order.shipping?.address?.city || "N/A"}, ${order.shipping?.address?.state || "N/A"} ${order.shipping?.address?.zipCode || "N/A"}</p>
+            <p>${order.shipping?.address?.country || "N/A"}</p>
           </div>
         </div>
 
@@ -237,9 +220,9 @@ function generateInvoiceHTML(order) {
             </tr>
           </thead>
           <tbody>
-            ${order.items.map(item => `
+            ${(order.items || []).map(item => `
               <tr>
-                <td>${item.name}</td>
+                <td>${item.productSnapshot?.name || "Product"}</td>
                 <td>${item.quantity}</td>
                 <td class="text-right">${formatPrice(item.price)}</td>
                 <td class="text-right">${formatPrice(item.price * item.quantity)}</td>
@@ -252,19 +235,19 @@ function generateInvoiceHTML(order) {
           <table>
             <tr>
               <td>Subtotal:</td>
-              <td class="text-right">${formatPrice(order.subtotal)}</td>
+              <td class="text-right">${formatPrice(order.pricing?.subtotal || 0)}</td>
             </tr>
             <tr>
               <td>Shipping:</td>
-              <td class="text-right">${formatPrice(order.shipping)}</td>
+              <td class="text-right">${formatPrice(order.pricing?.shipping || 0)}</td>
             </tr>
             <tr>
               <td>Tax:</td>
-              <td class="text-right">${formatPrice(order.tax)}</td>
+              <td class="text-right">${formatPrice(order.pricing?.tax || 0)}</td>
             </tr>
             <tr class="total-row">
               <td>Total:</td>
-              <td class="text-right">${formatPrice(order.total)}</td>
+              <td class="text-right">${formatPrice(order.pricing?.total || 0)}</td>
             </tr>
           </table>
         </div>

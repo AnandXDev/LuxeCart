@@ -8,6 +8,9 @@ const invoiceController = require('../controllers/invoiceController');
 // Apply auth middleware to all order routes
 router.use(protect);
 
+// GET /api/orders/stats - Get order statistics (for authenticated user)
+router.get('/stats', orderController.getOrderStats);
+
 // GET /api/orders - Get user's orders
 router.get('/', orderController.getOrders);
 
@@ -35,8 +38,7 @@ router.get('/:id/track', orderController.trackOrder);
 // POST /api/orders/:id/review - Add review to order
 router.post('/:id/review', orderController.addOrderReview);
 
-// GET /api/orders/stats - Get order statistics (for authenticated user)
-router.get('/stats', orderController.getOrderStats);
+
 
 // GET /api/orders/:id/invoice - Generate invoice PDF
 router.get('/:id/invoice', invoiceController.generateInvoice);

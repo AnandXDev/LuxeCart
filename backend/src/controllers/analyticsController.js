@@ -17,7 +17,8 @@ exports.getDashboardOverview = async (req, res, next) => {
       data: overview
     });
   } catch (error) {
-    next(error);
+       console.log("🔥 ERROR:", err); // IMPORTANT
+    res.status(500).json({ error: err.message });
   }
 };
 

@@ -1,9 +1,9 @@
 const nodemailer = require('nodemailer');
 
 const sendEmail = async (options) => {
-  // Validate required options
-  if (!options.email || !options.subject || !options.message) {
-    throw new Error('Email, subject, and message are required');
+  // ✅ FIX 1: Validate required options (ab yeh check karega ki ya toh 'message' ho ya 'text' ho)
+  if (!options.email || !options.subject || (!options.message && !options.text)) {
+    throw new Error('Email, subject, and either message (HTML) or text are required');
   }
 
   let transporter;
@@ -13,7 +13,7 @@ const sendEmail = async (options) => {
     console.log('📧 MOCK EMAIL (DEV MODE):');
     console.log(`To: ${options.email}`);
     console.log(`Subject: ${options.subject}`);
-    console.log(`Message: ${options.message.substring(0, 100)}...`);
+    console.log(`Content: ${options.message || options.text}`);
     return;
   }
 
@@ -39,6 +39,7 @@ const sendEmail = async (options) => {
       from: process.env.EMAIL_USER,
       subject: options.subject,
       html: options.message,
+      text: options.text, // ✅ FIX 2: SendGrid me bhi text add kiya
     };
 
     try {
@@ -70,11 +71,13 @@ const sendEmail = async (options) => {
     );
   }
 
+  // ✅ FIX 3: mailOptions mein text and html dono handle karein
   const mailOptions = {
-    from: process.env.EMAIL_USER || process.env.MAILTRAP_USER || 'noreply@dropship.com',
+    from: process.env.EMAIL_USER || process.env.MAILTRAP_USER || 'noreply@luxestore.com',
     to: options.email,
     subject: options.subject,
-    html: options.message
+    html: options.message, // Agar HTML message pass kiya (e.g., signup)
+    text: options.text     // Agar plain text pass kiya (e.g., OTP)
   };
 
   try {

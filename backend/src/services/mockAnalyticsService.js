@@ -1,18 +1,62 @@
 // Mock analytics service for development
+const express = require('express');
+const User = require('../models/User');
+const Product = require('../models/Product');
+const Order = require('../models/Order');
+const Supplier = require('../models/Supplier');
 class MockAnalyticsService {
   // Get dashboard overview statistics
   async getDashboardOverview(period = '30d') {
+
+    const startDate = new Date();
+    switch (period) {
+      case '7d':
+        startDate.setDate(startDate.getDate() - 7);
+        break;
+      case '30d':
+        startDate.setDate(startDate.getDate() - 30);
+        break;
+      case '90d':
+        startDate.setDate(startDate.getDate() - 90);
+        break;
+      case '1y':
+        startDate.setFullYear(startDate.getFullYear() - 1);
+        break;
+      default:
+        startDate.setDate(startDate.getDate() - 30);
+    }
+
+  // ✅ DB calls (outside object)
+  const totalUsers = await User.countDocuments();
+  const totalProducts = await Product.countDocuments();
+  const totalOrders = await Order.countDocuments();
+
+  const totalRevenue = await this.getTotalRevenue(startDate);
+
+  const activeSuppliers = await Supplier.countDocuments({ isActive: true });
+
+  const newUsers = await User.countDocuments({
+    createdAt: { $gte: startDate }
+  });
+
+  const newOrders = await Order.countDocuments({
+    createdAt: { $gte: startDate }
+  });
+
+  const averageOrderValue = await this.getAverageOrderValue(startDate);
+  const conversionRate = await this.getConversionRate(startDate);
+
     return {
       overview: {
-        totalUsers: 1250,
-        totalProducts: 156,
-        totalOrders: 892,
-        totalRevenue: 125450,
-        activeSuppliers: 24,
-        newUsers: 89,
-        newOrders: 156,
-        averageOrderValue: 140.75,
-        conversionRate: 3.2
+        totalUsers,
+        totalProducts,
+        totalOrders,
+        totalRevenue,
+        activeSuppliers,
+        newUsers,
+        newOrders,
+        averageOrderValue,
+        conversionRate,
       },
       topProducts: [
         {
@@ -154,6 +198,60 @@ class MockAnalyticsService {
     };
   }
 
+  // ✅ Total Revenue
+async getTotalRevenue(startDate) {
+  const result = await Order.aggregate([
+    {
+      $match: {
+        createdAt: { $gte: startDate },
+        status: "delivered"
+      }
+    },
+    {
+      $group: {
+        _id: null,
+        total: { $sum: "$total" }
+      }
+    }
+  ]);
+
+  return result[0]?.total || 0;
+}
+
+// ✅ Average Order Value
+async getAverageOrderValue(startDate) {
+  const result = await Order.aggregate([
+    {
+      $match: {
+        createdAt: { $gte: startDate }
+      }
+    },
+    {
+      $group: {
+        _id: null,
+        avg: { $avg: "$total" }
+      }
+    }
+  ]);
+
+  return result[0]?.avg || 0;
+}
+
+// ✅ Conversion Rate (simple logic)
+async getConversionRate(startDate) {
+  const totalUsers = await User.countDocuments({
+    createdAt: { $gte: startDate }
+  });
+
+  const totalOrders = await Order.countDocuments({
+    createdAt: { $gte: startDate }
+  });
+
+  if (totalUsers === 0) return 0;
+
+  return (totalOrders / totalUsers) * 100;
+}
+
   // Export analytics
   async exportAnalytics(type, period, format) {
     return {
@@ -170,5 +268,7 @@ class MockAnalyticsService {
     };
   }
 }
+
+
 
 module.exports = new MockAnalyticsService();

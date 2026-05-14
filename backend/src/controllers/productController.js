@@ -387,14 +387,22 @@ exports.getProductSuggestions = async (req, res, next) => {
 exports.createProduct = async (req, res, next) => {
   try {
     // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
+      if (!errors.isEmpty()) {
+      console.log("❌ VALIDATION ERRORS:");
+      errors.array().forEach((err, i) => {
+        console.log(`${i + 1}. Field: ${err.path}`);
+        console.log(`   Message: ${err.msg}`);
+        console.log(`   Value:`, err.value);
+      });
+
       return res.status(400).json({
-        status: 'fail',
-        message: 'Validation failed',
-        errors: errors.array()
+        status: "fail",
+        message: "Validation failed",
+        errors: errors.array(),
       });
     }
+
+    console.log("✅ DATA RECEIVED:", req.body);
 
     const product = await Product.create(req.body);
 
@@ -405,6 +413,7 @@ exports.createProduct = async (req, res, next) => {
       }
     });
   } catch (error) {
+        console.log("🔥 SERVER ERROR:", error.message);
     next(error);
   }
 };

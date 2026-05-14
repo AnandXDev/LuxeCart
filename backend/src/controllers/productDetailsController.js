@@ -1,5 +1,6 @@
 const Product = require('../models/Product');
 const Category = require('../models/Category');
+const Supplier = require('../models/Supplier');
 const asyncHandler = require('../middleware/asyncHandler');
 
 // @desc    Get product details by slug
@@ -50,8 +51,8 @@ exports.getProductReviews = asyncHandler(async (req, res, next) => {
 
   const product = await Product.findById(productId);
   
-  if (product.success || product.status === 'success') {
-  setProduct(product.data.product);
+ if (!product) {
+  throw new Error("Product not found");
 } else {
   throw new Error(product.message || "Product not found");
 }
@@ -286,5 +287,17 @@ exports.checkAvailability = asyncHandler(async (req, res, next) => {
       price: product.pricing.price,
       comparePrice: product.pricing.comparePrice
     }
+  });
+});
+
+// Dropdown ke liye simple list mangwayein
+exports.getSuppliersList = asyncHandler(async (req, res, next) => {
+  const suppliers = await Supplier.find({ status: 'active' })
+    .select('name slug image icon');
+
+  res.status(200).json({
+    success: true,
+    count: suppliers.length,
+    data: suppliers
   });
 });

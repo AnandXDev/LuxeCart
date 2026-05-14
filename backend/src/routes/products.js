@@ -25,9 +25,10 @@ router.get('/sale', productController.getSaleProducts);
 router.get('/search', productController.searchProducts);
 router.get('/suggestions', productController.getProductSuggestions);
 router.get('/categories', productDetailsController.getProductCategories);
+router.get('/suppliers', productDetailsController.getSuppliersList);
 router.get('/on-sale', productDetailsController.getOnSaleProducts);
 router.get('/slug/:slug', productDetailsController.getProductBySlug);
-router.get('/:slug', productController.getProduct);
+
 router.get('/:slug/reviews', productController.getProductReviews);
 router.get('/:productId/availability', productDetailsController.checkAvailability);
 
@@ -44,5 +45,6 @@ router.post('/', createProductValidator, productController.createProduct);
 router.get('/admin/:id', productController.getProductById);
 router.patch('/admin/:id', updateProductValidator, productController.updateProduct);
 router.delete('/admin/:id', productController.deleteProduct);
+router.get('/:slug', productController.getProduct);
 
 module.exports = router;
