@@ -170,57 +170,52 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   // Add item to cart
-  const addItem = async (item: Omit<CartItem, "id" | "addedAt">) => {
-    try {
-      setLoading(true);
-      setError(null);
+  const addItem = async (item: CartItem) => {
+  try {
+    setLoading(true);
+    setError(null);
 
-      // Check if user is authenticated
-      if (!isAuthenticated) {
-        throw new Error("Please login to add items to cart");
-      }
-
-      // First, add to server cart
-      const token = localStorage.getItem("token"); // Changed from Cookies.get('jwt')
-      if (!token) {
-        throw new Error("Authentication token not found");
-      }
-
-      const serverResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/cart`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            productId: item.productId, // Changed from item.slug
-            quantity: item.quantity,
-          }),
-        },
-      );
-
-      if (!serverResponse.ok) {
-        throw new Error("Failed to add item to server cart");
-      }
-
-      const serverData = await serverResponse.json();
-
-      if (serverData.status !== "success") {
-        throw new Error(serverData.message || "Failed to add item to cart");
-      }
-
-      // Refresh cart from server to get updated state
-      await fetchCartFromServer();
-    } catch (error: any) {
-      console.error("Error adding item to cart:", error);
-      setError(error.message || "Failed to add item to cart");
-      throw error; // Re-throw to let component handle it
-    } finally {
-      setLoading(false);
+    if (!isAuthenticated) {
+      throw new Error("Please login to add items to cart");
     }
-  };
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("Authentication token not found");
+    }
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    const res = await fetch(`${API_URL}/api/cart`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        productId: item.productId,
+        quantity: item.quantity,
+      }),
+    });
+
+    const data = await res.json();
+
+    // 🔥 FIXED CONDITION
+    if (!data.success && data.status !== "success") {
+      throw new Error(data.message || "Failed to add item");
+    }
+
+    // ✅ refresh cart
+    await fetchCartFromServer();
+
+    return true; // 🔥 IMPORTANT
+  } catch (error) {
+    console.error("Error adding item to cart:", error);
+    setError(error.message);
+
+    throw error; // ye rehne do (correct hai)
+  } finally {
+    setLoading(false);
+  }
+};
 
   // Remove item from cart
   const removeItem = async (itemId: string) => {

@@ -20,10 +20,10 @@ export function SectionHeader({
   badge,
 }: SectionHeaderProps) {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 bg-fuchsia-700 p-4 rounded-lg">
       <div className="space-y-2">
-        <div className="flex items-center gap-3">
-          <h2 className="text-xl  sm:text-2xl lg:text-3xl font-medium tracking-tight text-foreground">
+        <div className="flex items-center gap-2">
+          <h2 className=" me-8 text-3xl text-emerald-700 sm:text-2xl lg:text-4xl font-medium tracking-tight text-foreground">
             {title}
           </h2>
           {badge && (
@@ -33,7 +33,7 @@ export function SectionHeader({
           )}
         </div>
         {subtitle && (
-          <p className="text-muted-foreground text-lg">{subtitle}</p>
+          <p className="text-muted-foreground text-lg text-red-700">{subtitle}</p>
         )}
       </div>
 

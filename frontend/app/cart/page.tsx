@@ -514,7 +514,7 @@ export default function CartPage() {
                   {/* Checkout Button */}
                   <Button
                     onClick={handleCheckout}
-                    className="w-full"
+                    className="w-full bg-green-500 hover:bg-green-600 text-white"
                     size="lg"
                     disabled={isUpdating || cart.items.length === 0}
                   >

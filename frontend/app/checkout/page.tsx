@@ -38,7 +38,7 @@ interface ShippingInfo {
 export default function CheckoutPage() {
   const router = useRouter();
   const { cart, removeItem, updateQuantity, clearCart } = useCart();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated} = useAuth();
   const [paymentMethod, setPaymentMethod] = useState("razorpay");
   const { refreshOrders } = useOrders();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -78,10 +78,9 @@ export default function CheckoutPage() {
     }
 
     // Check if cart is empty (for normal checkout)
-    if (!tempCheckoutData && cart.items.length === 0) {
-      router.push("/products");
-      return;
-    }
+   if (!tempCheckoutData && cart.items.length === 0 && isAuthenticated) {
+  router.push("/products");
+}
 
     // Pre-fill user info if authenticated
     if (isAuthenticated && user) {
@@ -339,6 +338,7 @@ export default function CheckoutPage() {
       useEffect(() => {
         if (!isAuthenticated) {
           router.replace("/login");
+          return;
         }
       }, [isAuthenticated]);
       if (!isBuyNowCheckout) {

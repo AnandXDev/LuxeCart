@@ -14,6 +14,7 @@ import axios from "axios";
 // Types
 interface User {
   _id: string;
+  image: string;
   firstName: string;
   lastName: string;
   email: string;

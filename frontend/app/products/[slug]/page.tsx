@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { useSearchParams } from "next/navigation";
 import { Separator } from "@/components/ui/Separator";
+import { ProductGrid } from "@/components/product/ProductGrid";
+import { Loading } from "@/components/ui/Loading";
 import {
   ShoppingCart,
   Heart,
@@ -23,6 +25,7 @@ import {
   Plus,
   Minus,
 } from "lucide-react";
+import { ProductCard } from "@/components/product/ProductCard";
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -31,17 +34,40 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isBuying, setIsBuying] = useState(false);
-const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [allProducts, setAllProducts] = useState([]);
   const searchParams = useSearchParams();
-const searchQuery = searchParams.get("q")?.toLowerCase() || "";
-const [isRedirecting, setIsRedirecting] = useState(false);
+  const searchQuery = searchParams.get("q")?.toLowerCase() || "";
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   const slug = params.slug as string;
 
+  useEffect(() => {
+    const fetchAllProducts = async () => {
+      const catQuery = product?.category?._id
+        ? `&category=${product.category._id}`
+        : "";
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/products?limit=12`,
+        );
+        const data = await response.json();
+        if (data.success) {
+          setAllProducts(data.data.products);
+        } else {
+          console.error("Failed to fetch products:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchAllProducts();
+  }, []);
   // Fetch product details from API
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -95,12 +121,12 @@ const [isRedirecting, setIsRedirecting] = useState(false);
 
   // Check if product exists and redirect if not
   useEffect(() => {
-  if (!loading && !product && !error && !isRedirecting) {
-    if (window.location.pathname !== "/checkout") {
-      router.push("/products");
+    if (!loading && !product && !error && !isRedirecting) {
+      if (window.location.pathname !== "/checkout") {
+        router.push("/products");
+      }
     }
-  }
-}, [loading, product, error, router]);
+  }, [loading, product, error, router]);
 
   // Debug logging for product data
   useEffect(() => {
@@ -186,9 +212,11 @@ const [isRedirecting, setIsRedirecting] = useState(false);
       });
 
       // ✅ safe toast
-      toast.success(`${name || "Product"} added to cart!`);
+      console.log("SUCCESS ADD ITEM"); // 👈 check
+      toast.success("Added to cart");
     } catch (error) {
-      console.error(error);
+      console.log("ERROR:", error); // 👈 yaha real issue milega
+      toast.error("Failed to add to cart");
 
       if (error instanceof Error) {
         toast.error(error.message);
@@ -201,46 +229,46 @@ const [isRedirecting, setIsRedirecting] = useState(false);
   };
 
   const handleBuyNow = async (e?: React.MouseEvent) => {
-  // 🔥 1. Prevent default native browser behavior
-  if (e) e.preventDefault(); 
-  
-  if (!isInStock) return;
-  setIsRedirecting(true); 
-  setIsBuying(true);
+    // 🔥 1. Prevent default native browser behavior
+    if (e) e.preventDefault();
 
-  try {
-    const tempCartItem = {
-      productId: product._id,
-      slug: product.slug,
-      name: product.name,
-      images: product.images,
-      price: pricing?.basePrice || 0,
-      comparePrice: pricing?.comparePrice || undefined,
-      quantity,
-    };
+    if (!isInStock) return;
+    setIsRedirecting(true);
+    setIsBuying(true);
 
-    sessionStorage.setItem(
-      "tempCheckout",
-      JSON.stringify({
-        items: [tempCartItem],
-        isBuyNow: true,
-        productSlug: product.slug,
-      })
-    );
+    try {
+      const tempCartItem = {
+        productId: product._id,
+        slug: product.slug,
+        name: product.name,
+        images: product.images,
+        price: pricing?.basePrice || 0,
+        comparePrice: pricing?.comparePrice || undefined,
+        quantity,
+      };
 
-    console.log("Navigating to checkout...");
-    router.push("/checkout");
-    
-    // 🔥 2. Notice there is NO finally block setting setIsBuying(false). 
-    // We want the button to stay in the "Processing..." state until the page unmounts.
-  } catch (error) {
-    console.error(error);
-    toast.error("Failed to process buy now");
-    // Only turn off the loading states if an error actually occurred
-    setIsBuying(false);
-    setIsRedirecting(false);
-  }
-};
+      sessionStorage.setItem(
+        "tempCheckout",
+        JSON.stringify({
+          items: [tempCartItem],
+          isBuyNow: true,
+          productSlug: product.slug,
+        }),
+      );
+
+      console.log("Navigating to checkout...");
+      router.push("/checkout");
+
+      // 🔥 2. Notice there is NO finally block setting setIsBuying(false).
+      // We want the button to stay in the "Processing..." state until the page unmounts.
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to process buy now");
+      // Only turn off the loading states if an error actually occurred
+      setIsBuying(false);
+      setIsRedirecting(false);
+    }
+  };
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -300,15 +328,15 @@ const [isRedirecting, setIsRedirecting] = useState(false);
           >
             <div className="space-y-4">
               {/* Main Image */}
-              <div className="relative aspect-square bg-white rounded-lg overflow-hidden">
+              <div className="relative flex justify-center items-center bg-white rounded-lg overflow-hidden">
                 {images?.[selectedImageIndex] && (
                   <Image
                     src={images[selectedImageIndex].url}
-                    alt={images[selectedImageIndex].alt}
+                    alt={images[selectedImageIndex].alt || "Product Image"}
                     loading="lazy"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
+                    width={400}
+                    height={700}
+                    className="object-cover items-center"
                   />
                 )}
 
@@ -332,25 +360,27 @@ const [isRedirecting, setIsRedirecting] = useState(false);
               {/* Thumbnail Images */}
               {images && images.length > 1 && (
                 <div className="flex flex-wrap gap-2 mt-4">
-                  {images?.map((image: { url: string; alt: string }, index: number) => (
-                    <button
-                      key={index}
-                      onClick={() => setSelectedImageIndex(index)}
-                      className={`relative w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
-                        index === selectedImageIndex
-                          ? "border-primary"
-                          : "border-gray-200 hover:border-gray-300"
-                      }`}
-                    >
-                      <Image
-                        src={image.url}
-                        alt={image.alt}
-                        fill
-                        className="object-cover"
-                        sizes="80px"
-                      />
-                    </button>
-                  ))}
+                  {images?.map(
+                    (image: { url: string; alt: string }, index: number) => (
+                      <button
+                        key={index}
+                        onClick={() => setSelectedImageIndex(index)}
+                        className={`relative w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
+                          index === selectedImageIndex
+                            ? "border-primary"
+                            : "border-gray-200 hover:border-gray-300"
+                        }`}
+                      >
+                        <Image
+                          src={image.url}
+                          alt={image.alt}
+                          fill
+                          className="object-cover"
+                          sizes="80px"
+                        />
+                      </button>
+                    ),
+                  )}
                 </div>
               )}
             </div>
@@ -380,7 +410,7 @@ const [isRedirecting, setIsRedirecting] = useState(false);
                 )}
               </div>
 
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">{name}</h1>
+              <h1 className="text-3xl font-bold text-green-800 mb-4">{name}</h1>
 
               {/* Rating */}
               <div className="flex items-center space-x-4 mb-4">
@@ -461,7 +491,7 @@ const [isRedirecting, setIsRedirecting] = useState(false);
 
               <div className="flex space-x-4">
                 <Button
-                type="button"
+                  type="button"
                   onClick={handleAddToCart}
                   disabled={!isInStock || isAddingToCart}
                   className="flex-1"
@@ -483,12 +513,11 @@ const [isRedirecting, setIsRedirecting] = useState(false);
                   )}
                 </Button>
 
-                
                 <Button
-                type="button"
+                  type="button"
                   onClick={handleBuyNow}
                   disabled={!isInStock || isBuying}
-                  className="flex-1"
+                  className="flex-1 bg-green-600 text-white hover:bg-green-700"
                   size="lg"
                 >
                   {isBuying ? (
@@ -502,7 +531,6 @@ const [isRedirecting, setIsRedirecting] = useState(false);
                     "Buy Now"
                   )}
                 </Button>
-              
 
                 <Button
                   variant="outline"
@@ -571,6 +599,18 @@ const [isRedirecting, setIsRedirecting] = useState(false);
               </div>
             </div>
           </motion.div>
+          {/* Grid band hone ke baad */}
+        </div>
+
+        <div className="mt-16 border-t pt-10">
+          <h2 className="text-2xl font-bold text-gray-900 mb-8">
+            Relative Products
+          </h2>
+          {allProducts.length > 0 ? (
+            <ProductGrid products={allProducts} />
+          ) : (
+            <p className="text-gray-500">No related products found.</p>
+          )}
         </div>
       </div>
     </motion.div>

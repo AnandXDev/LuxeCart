@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
-import { useOrders } from "@/hooks/useData";
+import { useOrders } from "@/hooks/useOrders";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Separator } from "@/components/ui/Separator";
@@ -437,7 +437,7 @@ export default function MyOrdersPage() {
                             </div>
                             <div className="text-right">
                               <p className="font-medium text-gray-900">
-                                {formatPrice(item.pricing?.total || 0)}
+                                 Total: {formatPrice(order.pricing?.total || 0)}
                               </p>
                             </div>
                           </div>
@@ -451,13 +451,13 @@ export default function MyOrdersPage() {
                       </h4>
                       <div className="text-sm text-gray-600 space-y-1">
                         <p className="font-medium text-gray-900">
-                          {order.shippingAddress.fullName}
+                       {order.shipping?.address?.firstName} {order.shipping?.address?.lastName}
                         </p>
-                        <p>{order.shippingAddress.address}</p>
+                        <p>{order.shipping?.address?.address   || "N/A"}</p>
                         <p>
-                          {order.shippingAddress.city},{" "}
-                          {order.shippingAddress.state}{" "}
-                          {order.shippingAddress.zipCode}
+                          {order.shipping?.address?.city || "N/A"},{" "}
+                          {order.shipping?.address?.state || "N/A"}{" "}
+                          {order.shipping?.address?.zipCode || "N/A"}
                         </p>
                       </div>
 

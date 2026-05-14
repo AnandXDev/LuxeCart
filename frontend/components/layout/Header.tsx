@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { SearchBar } from "../common/SearchBar";
@@ -14,123 +14,58 @@ import { CartSidebar } from "../cart/CartSidebar";
 import { UserMenu } from "./UserMenu";
 import { MobileMenu } from "./MobileMenu";
 import { ShoppingCart, User, Menu, Search } from "lucide-react";
-import { CategoryRow } from "../CategoryRow";
-import { LuAlignJustify } from "react-icons/lu";
 
 // Categories for navigation
-const categories = [
-  {
-    id: "2",
-    name: "Electronics",
-    slug: "electronics",
-    productCount: 234,
-    subcategories: ["Mobiles", "Laptops", "Accessories"],
-  },
-  {
-    id: "3",
-    name: "Home & Kitchen",
-    slug: "home-kitchen",
 
-    productCount: 156,
-    subcategories: ["Furniture", "Appliances", "Decor"],
-  },
-  {
-    id: "4",
-    name: "Fashion",
-    slug: "fashion",
-    productCount: 189,
-    subcategories: ["Men", "Women", "Kids"],
-  },
-  {
-    id: "5",
-    name: "Fitness",
-    slug: "fitness",
-    productCount: 98,
-    subcategories: ["Workout Gear", "Supplements"],
-  },
-  {
-    id: "6",
-    name: "Beauty",
-    slug: "beauty",
-    productCount: 76,
-    subcategories: ["Skincare", "Makeup", "Hair Care"],
-  },
-  {
-    id: "7",
-    name: "Accessories",
-    slug: "accessories",
-
-    productCount: 45,
-    subcategories: ["Watches", "Bags", "Jewelry"],
-  },
-  {
-    id: "8",
-    name: "Toys & Games",
-    slug: "toys",
-    productCount: 55,
-    subcategories: ["Action Figures", "Board Games", "Puzzles"],
-  },
-  {
-    id: "9",
-    name: "Books",
-    slug: "books",
-    productCount: 90,
-    subcategories: ["Fiction", "Non-fiction", "Educational"],
-  },
-  {
-    id: "10",
-    name: "Baby Products",
-    slug: "baby",
-    productCount: 40,
-    subcategories: ["Diapers", "Toys", "Clothing"],
-  },
-  {
-    id: "11",
-    name: "Pet Supplies",
-    slug: "pets",
-    productCount: 35,
-    subcategories: ["Dog Food", "Cat Food", "Accessories"],
-  },
-  {
-    id: "12",
-    name: "Computers",
-    slug: "computers",
-    productCount: 75,
-    subcategories: ["Desktops", "Monitors", "Keyboards"],
-  },
-  {
-    id: "13",
-    name: "Gaming",
-    slug: "gaming",
-    productCount: 65,
-    subcategories: ["Consoles", "Games", "Accessories"],
-  },
-  {
-    id: "15",
-    name: "Furniture",
-    slug: "furniture",
-    productCount: 85,
-    subcategories: ["Sofas", "Beds", "Tables"],
-  },
-];
 export function Header() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { isAuthenticated, user } = useAuth();
+
+  const [categories, setCategories] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(12);
   const { cart } = useCart();
+  const [categoriesData, setCategoriesData] = useState([]);
   const pathname = usePathname();
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<any>(null);
   const [open, setOpen] = useState(false);
- 
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const res = await fetch("http://localhost:5000/api/categories", {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        const data = await res.json();
+
+        console.log("CATEGORIES API:", data); // 🔥 ADD THIS
+
+        const sortedCategories = data.data.categories.sort(
+          (a, b) => a.sortOrder - b.sortOrder,
+        );
+
+        setCategoriesData(sortedCategories);
+      } catch (err) {
+        console.error("Error fetching categories:", err);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   const [country, setCountry] = useState({
     name: "India",
     flag: "https://flagcdn.com/w40/in.png",
   });
-const handleCountrySelect = (c:any) => {
-  setCountry(c);
-  // Modal will close via onClose prop
-};
+  const handleCountrySelect = (c: any) => {
+    setCountry(c);
+    // Modal will close via onClose prop
+  };
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -145,7 +80,22 @@ const handleCountrySelect = (c:any) => {
     { name: "Contact", href: "/contact" },
   ];
 
-  
+  const fetchCategoryProducts = async (slug: string) => {
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/products/category/${slug}`,
+      );
+      const data = await res.json();
+      const sortedCategories = data.data.categories.sort(
+        (a, b) => a.sortOrder - b.sortOrder,
+      );
+      setCategories(sortedCategories);
+      console.log("Products:", data);
+    } catch (err) {
+      console.error("Error fetching:", err);
+    }
+  };
+
   const isActive = (href: string) => {
     if (href === "/") {
       return pathname === "/";
@@ -160,62 +110,59 @@ const handleCountrySelect = (c:any) => {
           <div className="flex mx-11 h-16 items-center justify-between">
             {/* Logo */}
             <div className="flex items-center mx-4">
-  <Link href="/" className="flex items-center space-x-2 group">
+              <Link href="/" className="flex items-center space-x-2 group">
+                {/* Luxe Text */}
+                <span className="text-4xl font-semibold text-gray-900 tracking-tight">
+                  Luxe
+                </span>
 
-    {/* Luxe Text */}
-    <span className="text-4xl font-semibold text-gray-900 tracking-tight">
-      Luxe
-    </span>
+                {/* Cart Logo */}
+                <span className="relative flex items-center justify-center">
+                  {/* Glow Effect */}
+                  <span className="absolute w-10 h-10 bg-yellow-400/40 blur-xl rounded-full group-hover:scale-110 transition"></span>
 
-    {/* Cart Logo */}
-    <span className="relative flex items-center justify-center">
-      
-      {/* Glow Effect */}
-      <span className="absolute w-10 h-10 bg-yellow-400/40 blur-xl rounded-full group-hover:scale-110 transition"></span>
+                  {/* Icon */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-10 h-10 text-yellow-500 drop-shadow-md"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 6h13M7 13L5.4 5M16 21a1 1 0 100-2 1 1 0 000 2zM9 21a1 1 0 100-2 1 1 0 000 2z"
+                    />
+                  </svg>
+                </span>
 
-      {/* Icon */}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-10 h-10 text-yellow-500 drop-shadow-md"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 6h13M7 13L5.4 5M16 21a1 1 0 100-2 1 1 0 000 2zM9 21a1 1 0 100-2 1 1 0 000 2z"
-        />
-      </svg>
-    </span>
-
-    {/* Cart Text */}
-    <span className="text-4xl font-semibold text-gray-900 tracking-tight">
-      art
-    </span>
-
-  </Link>
-</div>
+                {/* Cart Text */}
+                <span className="text-4xl font-semibold text-gray-900 tracking-tight">
+                  art
+                </span>
+              </Link>
+            </div>
 
             {/* Actions */}
             <div className="flex items-center space-x-4 flex-1 max-w-2xl mx-4">
               {/* Search */}
               <div className="hidden md:block flex-1">
-                <SearchBar className="w-full" />
+                <SearchBar className="w-full " />
               </div>
               <button
                 onClick={() => setIsSearchOpen(true)}
                 className="md:hidden p-2 rounded-md hover:bg-accent"
               >
-                <Search className="h-6 w-6" />
+                <Search className="h-6 w-6 " />
               </button>
 
               {/* Cart */}
 
               {/* User Menu */}
             </div>
-              
+
             {/* Location + Country UI */}
             <div className="hidden md:flex items-center gap-4 border-l pl-4">
               {/* Country */}
@@ -233,11 +180,14 @@ const handleCountrySelect = (c:any) => {
                   />
                   {country.name}
                 </span>
-                <CountryModal isOpen={open} onClose={() => setOpen(false)} onSelectLocation={handleCountrySelect} />
-              
+                <CountryModal
+                  isOpen={open}
+                  onClose={() => setOpen(false)}
+                  onSelectLocation={handleCountrySelect}
+                />
 
                 {/* Hover Line */}
-               <span className="pointer-events-none absolute bottom-0 left-0 h-[2px] w-0  transition-all duration-300 group-hover:w-full"></span>
+                <span className="pointer-events-none absolute bottom-0 left-0 h-[2px] w-0  transition-all duration-300 group-hover:w-full"></span>
               </div>
 
               {/* Divider */}
@@ -251,7 +201,6 @@ const handleCountrySelect = (c:any) => {
                 </span>
 
                 {/* Hover Line */}
-                
               </div>
             </div>
             <hr />
@@ -330,52 +279,58 @@ const handleCountrySelect = (c:any) => {
               ))}
             </nav> */}
           </div>
-          <div className="flex  gap-7 px-14 py-4  relative">
-            {categories.map((category) => (
-              <div
-                key={category.id}
-                className="relative"
-                onMouseEnter={() => {
-                  if (window.innerWidth >= 768) {
-                    setActiveCategory(category.name);
-                  }
-                }}
-                onMouseLeave={() => {
-                  if (window.innerWidth >= 768) {
-                    setActiveCategory(null);
-                  }
-                }}
-              >
-                {/* Category Button */}
-                <button
-                  onClick={() => {
-                    if (window.innerWidth < 768) {
-                      setActiveCategory(
-                        activeCategory === category.name ? null : category.name,
-                      );
-                    }
+          <div className="relative">
+            {/* Categories Row */}
+            <div className="hidden  sm:grid sm:grid-cols-4 gap-2 px-2 py-2 md:mx-7 lg:flex lg:flex-nowrap lg:overflow-x-auto">
+              {categoriesData.slice(0, visibleCount).map((category) => (
+                <div
+                  key={category.id}
+                  onMouseEnter={() => {
+                    setActiveCategory(category);
+                    fetchCategoryProducts(category.slug); // 🔥 API hit
                   }}
-                  className="flex items-center gap-2 text-black relative after:content-[''] after:absolute after:top-6 after:left-0 after:bottom-0 after:w-0 after:h-[4px] after:bg-blue-500 after:transition-all hover:after:w-full"
+                  onClick={() => {
+                    fetchCategoryProducts(category.slug);
+                    router.push(`/products?category=${category.slug}`);
+                  }}
                 >
-                  <span className="text-balance">{category.name}</span>
-                </button>
+                  <button className="px-2 py-1 border-b-2 border-transparent hover:border-pink-600 hover:text-pink-600 transition-all duration-300">
+                    {category.name}
+                  </button>
+                </div>
+              ))}
+              <hr className="z-10" />
+            </div>
 
-                {/* Dropdown */}
-                {activeCategory === category.name && (
-                  <div className="absolute top-7 left-0 bg-white shadow-xl rounded-lg p-4 min-w-[220px] z-50">
-                    {category.subcategories?.map((sub, i) => (
-                      <Link
-                        key={i}
-                        href={`/products?category=${category.slug}&sub=${sub}`}
-                        className="block px-3 py-2 hover:bg-gray-100 rounded"
-                      >
-                        {sub}
-                      </Link>
-                    ))}
-                  </div>
-                )}
+            {/* ✅ SINGLE DROPDOWN */}
+            {activeCategory && (
+              <div
+                className="absolute left-9 right-9 top-3/4 bg-white shadow-xl z-50"
+                onMouseEnter={() => setActiveCategory(activeCategory)}
+                onMouseLeave={() => setActiveCategory(null)}
+              >
+                <div className="max-w-7xl mx-auto p-6">
+                  {activeCategory?.subcategories1?.length > 0 ? (
+                    <div className="grid grid-cols-5 gap-6">
+                      {activeCategory.subcategories.map((item) => (
+                        <p
+                          key={item._id}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(`/products?category=${item.slug}`);
+                          }}
+                          className="text-gray-600 hover:text-pink-600 cursor-pointer"
+                        >
+                          {item.name}
+                        </p>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-gray-400">No subcategories</p>
+                  )}
+                </div>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </header>

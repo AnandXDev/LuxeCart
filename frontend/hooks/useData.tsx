@@ -365,10 +365,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
+ 
   // Fetch user specific data
   const fetchUserData = async () => {
     if (!isAuthenticated) return;
