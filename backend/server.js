@@ -45,13 +45,27 @@ app.use(helmet({
 }));
 
 // CORS configuration
+// Define allowed origins
+const allowedOrigins = [
+  'https://luxe-cart-delta.vercel.app',
+  'https://luxe-cart-440djtzis-anand-kumars-projects-7cca9d77.vercel.app', // Added this
+  'http://localhost:3000'
+];
+
 app.use(cors({
-  origin: ['https://luxe-cart-delta.vercel.app', 'http://localhost:3000'],
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With','Access-Control-Allow-Origin'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'], 
 }));
-app.options('*', cors());
 
 // Compression middleware
 app.use(compression());
