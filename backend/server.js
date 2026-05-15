@@ -51,6 +51,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
+app.options('*', cors());
 
 // Compression middleware
 app.use(compression());
@@ -179,7 +180,7 @@ let server;
 const startServer = async () => {
   await connectDB();
   
-  const server = app.listen(PORT, () => {
+   server = app.listen(PORT, () => {
     console.log(
       `Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`
     );
