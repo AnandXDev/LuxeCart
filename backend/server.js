@@ -49,7 +49,7 @@ app.use(cors({
   origin: ['https://luxe-cart-delta.vercel.app', 'http://localhost:3000'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With','Access-Control-Allow-Origin'],
 }));
 app.options('*', cors());
 
