@@ -20,7 +20,7 @@ const createSendToken = (user, statusCode, res, message) => {
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     httpOnly: true,
     sameSite: "lax", // 👈 important
-    secure: false, // 👈 true in production
+    secure: true, // 👈 true in production
   });
 
   res.status(statusCode).json({
